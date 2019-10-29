@@ -1,0 +1,8 @@
+# External IP
+alias eip='wget -qO- https://ipecho.net/plain ; echo'
+
+# Pretty LS
+alias ls='/usr/local/bin/gls --color -h --group-directories-first'
+
+# Workflow
+alias workspace='tmux attach || tmux new -s main'

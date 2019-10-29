@@ -29,6 +29,10 @@ set smartcase
 set backspace=indent,eol,start
 filetype plugin indent on
 
+" Tabs are now spaces
+set tabstop=2 shiftwidth=2 expandtab
+
+
 " Removes trailing backspace
 autocmd BufWritePre * %s/\s\+$//e
 
@@ -63,6 +67,15 @@ Plugin 'IN3D/vim-raml'
 
 " DocBlockr Equivalent
 Plugin 'heavenshell/vim-jsdoc'
+
+" AutoComplete
+Plugin 'vim-scripts/dbext.vim'
+Plugin 'lifepillar/vim-mucomplete'
+set completeopt+=menuone
+set completeopt+=noinsert
+let g:mucomplete#enable_auto_at_startup = 1
+let g:mucomplete#delayed_completion = 1
+
 
 " Make it pretty
 Plugin 'vim-airline/vim-airline'

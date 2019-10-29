@@ -30,7 +30,7 @@ case "$(uname -s)" in
     echo '-- [ Installing SilverSearch ] --'
     brew install the_silver_searcher
     echo '--- [ Running GUI Installation ] ---'
-    brew cask install firefox iterm2 visual-studio-code spotify
+    brew cask install firefox iterm2 visual-studio-code spotify slack discord
 
     ;;
 	Linux)
