@@ -22,7 +22,7 @@ case "$(uname -s)" in
 
     echo '-- [ Installing OpenJDK8 ] --'
     brew tap AdoptOpenJDK/openjdk
-    brew install adoptopenjdk/openjdk/adoptopenjdk-openjdk8
+    brew cask install adoptopenjdk8
 
     echo '-- [ Installing NodeJS ] --'
     brew install yarn
