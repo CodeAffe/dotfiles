@@ -4,53 +4,50 @@ case "$(uname -s)" in
 
 	Darwin)
 		echo '--- Running OSX Setup ---'
-    echo '-- Copying dotfiles to home directory'
-    cp -r ./dotfiles/* ~/
 
-    echo '-- Moving to /tmp directory --'
-    cd /tmp
+    # 1. Installing required software
+    #   - 1a. Install Homebrew
+    #   - 1b. Install Homebrew brewfile
 
     echo '-- Installing: Homebrew --'
-		echo | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    # 1a. Installing Homebrew
+    chmod +x ./submodules/homebrew-install/install.sh
+    #CI=1 tricks homebrew into automated install
+    CI=1 ./submodules/homebrew-install/install.sh 
 
-    echo '-- Installing GIT --'
-    brew install git
+    echo '-- Starting homebrew install --'
+    brew bundle --file=./osx/Brewfile
 
-    echo '-- Installing ZSH ---'
-    brew install zsh
-    # oh my zsh
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    # Theme
-    git clone https://github.com/ergenekonyigit/lambda-gitster.git
-    cd lambda-gitster && cp lambda-gitster.zsh-theme ~/.oh-my-zsh/custom/themes
-    cd /tmp
+    # 2. Copying terminal apps configuration
+    #   - 2a. Shell configuration
+    #   - 2b. TMUX configuration
+    #   - 2c. VIM configuration
+    #   - 2d. Oh-My-ZSH configuration
 
-    echo '-- Installing TMUX ---'
-    brew install tmux
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm && ~/.tmux/plugins/tpm/bin/install_plugins
+    echo '-- Copying dotfiles to home directory'
+    # 2a. Shell configuration
+    cp -r ./config/shell/* ~/
 
-    echo '-- Installing Golang --'
-    brew install go@1.13
+    # 2b. TMUX configuration
+    cp -r ./config/tmux/* ~/
+    # Tmux plugins
+    cp -r ./submodules/tpm/* ~/.tmux/plugins/tpm
+    cp -r ./submodules/tpm/* ~/.tmux/plugins/tpm/bin/install_plugins
 
-    echo '-- Installing OpenJDK8 --'
-    brew tap AdoptOpenJDK/openjdk
-    brew cask install adoptopenjdk8
+    # 2c. VIM configuration
+    cp -r ./config/vim/* ~/
+    # Vim plugins
+    cp -r ./submodules/vundle/* ~/.vim/bundle/Vundle.vim/
+    vim +PluginInstall +qall
 
-    echo '-- Installing NodeJS --'
-    brew install yarn
-
-    echo '-- Installing Kubectl --'
-    brew install kubectl
-
-    echo '-- Installing SilverSearch --'
-    brew install the_silver_searcher
-    echo '--- Running GUI Installation ---'
-    brew cask install firefox iterm2 visual-studio-code spotify slack discord
+    # 2d. Oh-My-ZSH configuration
+    chmod +x ./submodules/ohmyzsh/tools/install.sh
+    ./submodules/ohmyzsh/tools/install.sh
+    # - ohmyzsh theme
+    cp ./submodules/lambda-gitster/.zsh-theme ~/.oh-my-zsh/custom/themes
 
     ;;
 	Linux)
 		echo 'Linux'
 		;;
 esac
-
-# cp ./dotfiles/* ~/.
