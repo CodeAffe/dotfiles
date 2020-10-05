@@ -11,9 +11,11 @@ case "$(uname -s)" in
 
     echo '-- Installing: Homebrew --'
     # 1a. Installing Homebrew
-    chmod +x ./submodules/homebrew-install/install.sh
+    # chmod +x ./submodules/homebrew-install/install.sh
     #CI=1 tricks homebrew into automated install
-    CI=1 ./submodules/homebrew-install/install.sh 
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null
+    brew install git
+    git submodule update --init --recursive
 
     echo '-- Starting homebrew install --'
     brew bundle --file=./osx/Brewfile
@@ -26,16 +28,16 @@ case "$(uname -s)" in
 
     echo '-- Copying dotfiles to home directory'
     # 2a. Shell configuration
-    cp -r ./config/shell/* ~/
+    cp -r ./config/shell ~/
 
     # 2b. TMUX configuration
-    cp -r ./config/tmux/* ~/
+    cp -r ./config/tmux ~/
     # Tmux plugins
-    cp -r ./submodules/tpm/* ~/.tmux/plugins/tpm
-    cp -r ./submodules/tpm/* ~/.tmux/plugins/tpm/bin/install_plugins
+    cp -r ./submodules/tpm ~/.tmux/plugins/tpm
+    cp -r ./submodules/tpm ~/.tmux/plugins/tpm/bin/install_plugins
 
     # 2c. VIM configuration
-    cp -r ./config/vim/* ~/
+    cp -r ./config/vim ~/
     # Vim plugins
     cp -r ./submodules/vundle/* ~/.vim/bundle/Vundle.vim/
     vim +PluginInstall +qall
